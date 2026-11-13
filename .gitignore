@@ -1,0 +1,8 @@
+# Temario original (material del curso): se queda solo en local
+*.docx
+~$*
+
+__pycache__/
+*.pyc
+.venv/
+.streamlit/secrets.toml
