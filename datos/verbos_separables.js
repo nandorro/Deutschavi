@@ -1,4 +1,5 @@
-[
+// Contenido del temario. Cada elemento se desbloquea con su campo "semana".
+window.VERBOS = [
  {
   "infinitivo": "abfahren",
   "prefijo": "ab",
@@ -269,4 +270,4 @@
    "Er gibt das Buch zurück."
   ]
  }
-]
+];

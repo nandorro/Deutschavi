@@ -1,7 +1,10 @@
 # Deutschavi 🩺
 
 Juegos de alemán A1 para estudiantes de Medicina. Todo el contenido sale del
-temario del curso (carpeta local `Deutschavi`); no se añade nada que no esté ahí.
+temario del curso; no se añade nada que no esté ahí.
+
+**Web:** https://nandorro.github.io/Deutschavi/ · Funciona en el móvil y se puede
+añadir a la pantalla de inicio del iPhone (Safari → Compartir → *Añadir a pantalla de inicio*).
 
 ## Juegos
 
@@ -14,34 +17,29 @@ temario del curso (carpeta local `Deutschavi`); no se añade nada que no esté a
 
 Sin teclado alemán se acepta `ae/oe/ue/ss` en lugar de `ä/ö/ü/ß`.
 
-## Ejecutar en local
+## Es una web estática
 
-```bash
-pip install -r requirements.txt
-streamlit run app.py
-```
-
-## Publicar (URL pública)
-
-1. Entrar en <https://share.streamlit.io> con la cuenta de GitHub.
-2. *Create app* → repositorio `nandorro/Deutschavi`, rama `main`, archivo `app.py`.
-3. Streamlit da una URL que se puede compartir con los alumnos. Cada `git push` la actualiza sola.
+HTML + CSS + JavaScript, sin servidor ni instalación. GitHub Pages sirve los archivos tal cual;
+cada `git push` a `main` actualiza la web en un minuto. En local basta abrir `index.html`.
 
 ## Ampliar cada semana
 
-- **Desbloquear la semana siguiente:** subir `SEMANA_ACTUAL` en [`config.py`](config.py).
-- **Añadir ejercicios:** editar los JSON de [`datos/`](datos). Cada elemento lleva su campo `"semana"`:
-  - `frases.json`: `{"de": "...", "es": "...", "semana": 4, "alt": ["otro orden válido"]}`
+- **Desbloquear la semana siguiente:** subir `SEMANA_ACTUAL` en [`js/config.js`](js/config.js).
+- **Añadir ejercicios:** editar [`datos/frases.js`](datos/frases.js) y [`datos/verbos_separables.js`](datos/verbos_separables.js).
+  Cada elemento lleva su campo `"semana"`:
+  - frases: `{"de": "...", "es": "...", "semana": 4, "alt": ["otro orden válido"]}`
     (la misma lista sirve para *Frases desordenadas* y *¿Qué mayúscula falta?*).
-  - `verbos_separables.json`: `{"infinitivo", "prefijo", "base", "es", "semana", "frases": [...]}`
+  - verbos: `{"infinitivo", "prefijo", "base", "es", "semana", "frases": [...]}`
     (la frase debe terminar con el prefijo).
-- **Números:** el generador (`core/numeros_de.py`) ya cubre 0 – 9.999.999; los niveles se definen en `paginas/numeros.py`.
+- **Números:** el generador (`js/numeros_de.js`) cubre 0 – 9.999.999; los niveles se definen en `js/numeros.js`.
 
 Semanas actuales: 1 = Temas 0, 0.5 y 1 · 2 = Tema 2 · 3 = Tema 2.5.
 
 ## Pruebas
 
 ```bash
-python tests/test_numeros.py     # números contra los ejemplos del temario
-python tests/test_paginas.py     # los 4 juegos simulando clics
+node tests/test_numeros.js     # números contra los ejemplos del temario
+npm i jsdom && node tests/test_juegos.js   # los 4 juegos simulando toques
 ```
+
+> Existe también una versión en Python (Streamlit) con los mismos juegos, guardada en local en la carpeta `Deutschavi_python`.

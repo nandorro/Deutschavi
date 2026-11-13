@@ -1,4 +1,5 @@
-[
+// Contenido del temario. Cada elemento se desbloquea con su campo "semana".
+window.FRASES = [
  {
   "de": "Ich trinke Kaffee.",
   "es": "Yo bebo café.",
@@ -629,4 +630,4 @@
    "Am Mittag essen wir zusammen."
   ]
  }
-]
+];

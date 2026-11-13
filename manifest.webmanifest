@@ -1,0 +1,17 @@
+{
+  "name": "Deutschavi · Alemán para Medicina",
+  "short_name": "Deutschavi",
+  "description": "Juegos de alemán A1 para estudiantes de Medicina",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f3fafa",
+  "theme_color": "#0e7c86",
+  "lang": "es",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
