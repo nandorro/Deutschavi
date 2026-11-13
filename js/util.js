@@ -105,7 +105,7 @@
     `<div class="tarjeta"><div class="etiqueta">${esc(etiqueta)}</div><div class="${clase}">${html}</div></div>`;
 
   const api = { esc, normaliza, plegar, evaluar, diffHtml, rand, pick, shuffle, separar, esMayus,
-    almacen, registrar, marcadorHtml, resultadoOk, resultadoKo, tarjeta };
+    almacen, registrar, marcadorDe, marcadorHtml, resultadoOk, resultadoKo, tarjeta };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.U = api;
 })(typeof window !== "undefined" ? window : globalThis);

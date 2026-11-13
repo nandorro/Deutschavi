@@ -10,7 +10,7 @@ añadir a la pantalla de inicio del iPhone (Safari → Compartir → *Añadir a 
 
 | Juego | Qué hace |
 |---|---|
-| **Números** | Sale una cifra; la escribes en alemán. Si fallas, se muestra la palabra correcta con las letras falladas en rojo. |
+| **Números** | Sale una cifra; la escribes en alemán. Si fallas, se muestra la palabra correcta con las letras falladas en rojo. El nivel sube solo con la racha: 5 aciertos seguidos → centenas, 10 → miles, 15 → cien miles, 20 → millones (un fallo vuelve al inicio). |
 | **Verbos separables** | Completa la frase con el prefijo, o elige el prefijo de un verbo. |
 | **Frases desordenadas** | Toca las palabras para ordenar la frase. |
 | **¿Qué mayúscula falta?** | Fácil: falta una. Avanzado: marca todas las que llevan mayúscula. |

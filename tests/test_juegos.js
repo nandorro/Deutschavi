@@ -28,23 +28,38 @@ const marcador = (w) => qa(w, ".marcador b").map((b) => b.textContent);
 
 async function numeros() {
   const w = await abrir("numeros");
-  const n = Number(q(w, ".numero-grande").textContent.replace(/\./g, ""));
-  q(w, "#resp").value = palabra(n);
-  q(w, "#f").dispatchEvent(new w.Event("submit", { cancelable: true }));
-  assert(q(w, ".resultado.ok"), "debía acertar");
-  assert.deepStrictEqual(marcador(w).slice(0, 2), ["1", "1"]);
-  q(w, "#sig").click();
-  q(w, "#resp").value = "xxx";
-  q(w, "#f").dispatchEvent(new w.Event("submit", { cancelable: true }));
-  assert(q(w, ".resultado.ko .palabra .mal"), "debían salir letras en rojo");
-  assert.strictEqual(marcador(w)[2], "0 ♥");
-  // variante sin teclado alemán: dreißig == dreissig
-  q(w, "#sig").click();
-  const sel = q(w, "#nivel"); sel.value = "1"; sel.dispatchEvent(new w.Event("change"));
-  for (let i = 0; i < 200 && q(w, ".numero-grande").textContent !== "30"; i++) { q(w, "#nivel").dispatchEvent(new w.Event("change")); }
-  if (q(w, ".numero-grande").textContent === "30") {
-    q(w, "#resp").value = "dreissig";
+  const valor = () => Number(q(w, ".numero-grande").textContent.replace(/\./g, ""));
+  const enviar = (texto) => {
+    q(w, "#resp").value = texto;
     q(w, "#f").dispatchEvent(new w.Event("submit", { cancelable: true }));
+  };
+  const rango = (r) => r < 5 ? [0, 100] : r < 10 ? [100, 999] : r < 15 ? [1000, 99999]
+    : r < 20 ? [100000, 999999] : [1000000, 9999999];
+
+  // modo automático: el escalón depende de la racha (5 centenas, 10 miles, 15 cien miles, 20 millones)
+  assert(valor() <= 100, "al inicio, hasta 100");
+  for (let racha = 1; racha <= 22; racha++) {
+    enviar(palabra(valor()));
+    assert(q(w, ".resultado.ok"), "debía acertar " + racha);
+    const sube = [5, 10, 15, 20].includes(racha);
+    assert.strictEqual(q(w, ".resultado").textContent.includes("Subes de nivel"), sube, "aviso en racha " + racha);
+    q(w, "#sig").click();
+    const [lo, hi] = rango(racha);
+    assert(valor() >= lo && valor() <= hi, `racha ${racha}: ${valor()} fuera de ${lo}-${hi}`);
+  }
+  // un fallo devuelve al escalón inicial, con mensaje amable
+  enviar("xxx");
+  assert(q(w, ".resultado.ko .palabra .mal"), "debían salir letras en rojo");
+  assert(q(w, ".resultado.ko").textContent.includes("Volvemos un escalón"));
+  assert.strictEqual(marcador(w)[2], "0 ♥");
+  q(w, "#sig").click();
+  assert(valor() <= 100, "tras fallar, vuelve a hasta 100");
+
+  // nivel manual + variante sin teclado alemán: dreißig == dreissig
+  const sel = q(w, "#nivel"); sel.value = "1"; sel.dispatchEvent(new w.Event("change"));
+  for (let i = 0; i < 400 && valor() !== 30; i++) sel.dispatchEvent(new w.Event("change"));
+  if (valor() === 30) {
+    enviar("dreissig");
     assert(q(w, ".resultado.ok"), "dreissig debía valer");
   }
   assert.deepStrictEqual(w.document.errores, []);
