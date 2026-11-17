@@ -94,3 +94,22 @@ input[type=text]:focus, select:focus { outline: none; border-color: var(--teal);
 .tuya { font-size: 1.05rem; color: var(--gris); word-break: break-word; }
 .tuya .extra, .cinta .sobra { color: #b4570f; text-decoration: line-through; }
 .cinta { font-size: 1.25rem; font-weight: 600; line-height: 2; }
+
+/* ---- registro de accesos: botón ? y ventanas */
+#btn-registro { position: fixed; right: calc(12px + env(safe-area-inset-right)); bottom: calc(12px + env(safe-area-inset-bottom));
+  width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--teal); background: rgba(255,255,255,.92);
+  color: var(--teal-osc); font: 700 1.1rem/1 inherit; cursor: pointer; z-index: 50; box-shadow: 0 2px 8px rgba(14,124,134,.25); padding: 0; }
+#btn-registro:active { background: var(--menta); }
+.capa { position: fixed; inset: 0; background: rgba(18,52,59,.55); display: flex; align-items: center; justify-content: center;
+  padding: 1rem; z-index: 100; overflow-y: auto; }
+.modal { background: #fff; border-radius: 18px; padding: 1.3rem 1.2rem; width: 100%; max-width: 420px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25); max-height: 90vh; overflow-y: auto; }
+.modal.ancho { max-width: 640px; }
+.modal h2 { margin-top: 0; }
+.cruz-grande { background: var(--teal); color: #fff; width: 3rem; height: 3rem; border-radius: 14px; display: flex;
+  align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 800; margin-bottom: .6rem; }
+.resumen { margin: .3rem 0 .6rem; }
+.tabla-caja { overflow: auto; max-height: 52vh; border: 1px solid var(--borde); border-radius: 12px; }
+.tabla { border-collapse: collapse; width: 100%; font-size: .85rem; }
+.tabla th, .tabla td { padding: .4rem .55rem; text-align: left; white-space: nowrap; border-bottom: 1px solid #e3f0f1; }
+.tabla thead th { position: sticky; top: 0; background: var(--menta); color: var(--teal-osc); }

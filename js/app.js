@@ -28,18 +28,25 @@ function inicio(el) {
         <span class="icono">${j.icono}</span>
         <span><b>${U.esc(j.titulo)}</b><br><span class="texto">${U.esc(j.texto)}</span></span>
         <span class="flecha">›</span></a>`).join("") +
-    `<p class="nota centro">Bis bald! — ¡Hasta pronto!</p>`;
+    `<p class="nota centro">Bis bald! — ¡Hasta pronto!</p>` +
+    (Registro.activo() && Registro.nombre()
+      ? `<p class="nota centro">Entras como <b>${U.esc(Registro.nombre())}</b> · <a href="#/" id="cambiar-nombre">cambiar</a></p>` : "");
+  const cambiar = el.querySelector("#cambiar-nombre");
+  if (cambiar) cambiar.onclick = (e) => { e.preventDefault(); Registro.pedirNombre().then(() => inicio(el)); };
 }
 
 function navegar() {
   const main = document.getElementById("app");
   const id = (location.hash || "#/").replace(/^#\/?/, "");
   const juego = JUEGOS.find((j) => j.id === id);
-  if (juego) Juegos[juego.id].iniciar(main); else inicio(main);
+  if (juego) { Registro.evento("juego", juego.titulo); Juegos[juego.id].iniciar(main); } else inicio(main);
   window.scrollTo(0, 0);
 }
-window.addEventListener("hashchange", navegar);
-navegar();
+// Primero el registro (pide el nombre si está activado) y después se muestra la app
+Registro.iniciar().then(() => {
+  window.addEventListener("hashchange", navegar);
+  navegar();
+});
 
 // Instalable en la pantalla de inicio y utilizable sin conexión
 if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {

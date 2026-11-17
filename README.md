@@ -17,6 +17,14 @@ añadir a la pantalla de inicio del iPhone (Safari → Compartir → *Añadir a 
 
 Sin teclado alemán se acepta `ae/oe/ue/ss` en lugar de `ä/ö/ü/ß`.
 
+## Registro de accesos
+
+Botón pequeño **?** (abajo a la derecha) que muestra todos los accesos: nombre, fecha, hora,
+dispositivo y juego. Está protegido con un **PIN** que solo conoces tú. Los accesos se guardan en una
+hoja de Google de tu Drive. Está **desactivado** hasta que pongas `REGISTRO_URL`; los pasos
+(3 minutos) están en [`registro/LEEME.md`](registro/LEEME.md). Cuando está activo, la app pide el
+nombre del alumno al entrar y le avisa de que el profesor verá sus accesos.
+
 ## Es una web estática
 
 HTML + CSS + JavaScript, sin servidor ni instalación. GitHub Pages sirve los archivos tal cual;
@@ -39,7 +47,7 @@ Semanas actuales: 1 = Temas 0, 0.5 y 1 · 2 = Tema 2 · 3 = Tema 2.5.
 
 ```bash
 node tests/test_numeros.js     # números contra los ejemplos del temario
-npm i jsdom && node tests/test_juegos.js   # los 4 juegos simulando toques
+npm i jsdom && node tests/test_juegos.js && node tests/test_registro.js   # juegos y registro simulando toques
 ```
 
 > Existe también una versión en Python (Streamlit) con los mismos juegos, guardada en local en la carpeta `Deutschavi_python`.

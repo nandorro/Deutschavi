@@ -2,7 +2,7 @@
 const CACHE = "deutschavi-v1";
 const ARCHIVOS = [
   "./", "index.html", "css/estilo.css", "manifest.webmanifest",
-  "js/config.js", "js/util.js", "js/numeros_de.js", "js/numeros.js", "js/verbos.js",
+  "js/config.js", "js/util.js", "js/registro.js", "js/numeros_de.js", "js/numeros.js", "js/verbos.js",
   "js/frases.js", "js/mayusculas.js", "js/app.js",
   "datos/frases.js", "datos/verbos_separables.js",
   "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png",
