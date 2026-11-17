@@ -159,11 +159,10 @@
     evento("entrada", "");
   }
 
-  // Cerrar sesión: olvida el nombre, el PIN y el marcador de este dispositivo y vuelve a pedir el nombre
+  // Cerrar sesión: olvida el nombre y el PIN (el marcador se conserva) y vuelve a pedir el nombre
   async function cerrarSesion() {
     if (activo() && nombre()) evento("salida", "");
     U.almacen.guardar(CLAVE_NOMBRE, "");
-    U.almacen.guardar("deutschavi_marcador_v1", {});
     memPin.v = "";
     try { sessionStorage.removeItem(CLAVE_PIN); } catch (e) { /* ok */ }
     if (activo()) { await pedirNombre(); evento("entrada", ""); }

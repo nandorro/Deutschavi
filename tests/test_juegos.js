@@ -276,7 +276,7 @@ async function modales() {
 }
 
 async function sesion() {
-  // con el registro activo: cerrar sesión borra nombre y marcador y vuelve a pedir el nombre
+  // con el registro activo: cerrar sesión borra el nombre (conserva el marcador) y vuelve a pedir el nombre
   const w = await abrir("", "https://registro.invalido.test/exec");
   await new Promise((r) => setTimeout(r, 100));
   q(w, "#reg-nombre").value = "Ana";
@@ -290,7 +290,7 @@ async function sesion() {
   await new Promise((r) => setTimeout(r, 150));
   assert(q(w, "#reg-nombre"), "tras cerrar sesión se vuelve a pedir el nombre");
   assert.strictEqual(w.Registro.nombre(), "", "nombre olvidado");
-  assert.strictEqual(w.U.marcadorDe("numeros").a, 0, "marcador a cero");
+  assert.strictEqual(w.U.marcadorDe("numeros").a, 1, "el marcador se conserva");
   q(w, "#reg-nombre").value = "Beto";
   q(w, ".capa form").dispatchEvent(new w.Event("submit", { cancelable: true }));
   await new Promise((r) => setTimeout(r, 150));

@@ -31,7 +31,7 @@ hoja de Google de tu Drive. Está **desactivado** hasta que pongas `REGISTRO_URL
 (3 minutos) están en [`registro/LEEME.md`](registro/LEEME.md). Cuando está activo, la app pide el
 nombre del alumno al entrar y le avisa de que el profesor verá sus accesos.
 
-En el inicio, **↻ Recargar** trae siempre la última versión (borra la copia guardada) y **Cerrar sesión** olvida el nombre y el marcador de este dispositivo.
+En el inicio, **↻ Recargar** trae siempre la última versión (borra la copia guardada) y **Cerrar sesión** olvida el nombre de este dispositivo (el marcador se conserva).
 
 ## Es una web estática
 

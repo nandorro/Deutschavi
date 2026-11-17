@@ -43,7 +43,7 @@ function inicio(el) {
   if (cambiar) cambiar.onclick = (e) => { e.preventDefault(); Registro.pedirNombre().then(() => inicio(el)); };
   el.querySelector("#recargar").onclick = recargar;
   el.querySelector("#cerrar-sesion").onclick = async () => {
-    if (!confirm("¿Cerrar sesión? Se borrará tu nombre y tu marcador en este dispositivo.")) return;
+    if (!confirm("¿Cerrar sesión? Se olvidará tu nombre en este dispositivo (tu marcador se conserva).")) return;
     await Registro.cerrarSesion();
     inicio(el);
   };
