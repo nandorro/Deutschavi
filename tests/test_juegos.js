@@ -11,6 +11,8 @@ const RAIZ = path.join(__dirname, "..");
 async function abrir(ruta) {
   const dom = await JSDOM.fromFile(path.join(RAIZ, "index.html"), {
     runScripts: "dangerously", resources: "usable", pretendToBeVisual: true,
+    // los juegos se prueban sin registro (no escribir en la hoja real)
+    beforeParse(w) { Object.defineProperty(w, "REGISTRO_URL", { get: () => "", set() {} }); },
     url: "file:///" + RAIZ.replace(/\\/g, "/") + "/index.html#/" + ruta,
   });
   const w = dom.window;

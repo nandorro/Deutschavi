@@ -8,4 +8,4 @@ window.SEMANA_ACTUAL = 3;
 
 // Registro de accesos en una hoja de Google. Vacío = desactivado (no se pide nombre).
 // Pasos para activarlo: registro/LEEME.md
-window.REGISTRO_URL = "";
+window.REGISTRO_URL = "https://script.google.com/macros/s/AKfycbwAtOzk90fvPezp7A9RcFoTwkGZBbcobkkQM_F9Xr1l7wYjL2TJu8WqnAOfN8dzkSIZ/exec";

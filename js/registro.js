@@ -141,7 +141,7 @@
       cuerpo.innerHTML = `<p>Cargando…</p>`;
       try {
         const d = await leer(pin);
-        if (!d.ok) { guardarPin(""); return pedirPin(d.error === "pin" ? "PIN incorrecto." : "No se pudo leer el registro."); }
+        if (!d.ok) { guardarPin(""); return pedirPin(d.error === "pin" ? "PIN incorrecto." : d.error === "bloqueado" ? "Demasiados intentos. Espera 15 minutos." : "No se pudo leer el registro."); }
         guardarPin(pin);
         cuerpo.innerHTML = tabla(d) + `<button class="btn" id="reg-refrescar" type="button">↻ Actualizar</button>`;
         cuerpo.querySelector("#reg-refrescar").onclick = () => cargar(pin);

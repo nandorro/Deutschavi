@@ -9,6 +9,8 @@
 const HOJA = "Accesos";
 const COLUMNAS = ["Fecha", "Hora", "Nombre", "Dispositivo", "Navegador / sistema", "Evento", "Detalle"];
 const MAX_FILAS_LECTURA = 500;
+const MAX_FALLOS = 5;
+const MINUTOS_BLOQUEO = 15;
 
 function hoja_() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -47,8 +49,22 @@ function doPost(e) {
 
   // ---- Leer el registro (solo con PIN)
   if (d.accion === "leer") {
-    const pin = PropertiesService.getScriptProperties().getProperty("PIN");
-    if (!pin || String(d.pin || "") !== pin) return json_({ ok: false, error: "pin" });
+    const props = PropertiesService.getScriptProperties();
+    const ahoraMs = Date.now();
+    if (Number(props.getProperty("BLOQUEO_HASTA") || 0) > ahoraMs) return json_({ ok: false, error: "bloqueado" });
+    const pin = props.getProperty("PIN");
+    if (!pin || String(d.pin || "") !== pin) {
+      // 5 fallos seguidos bloquean la lectura 15 minutos (frena adivinar el PIN)
+      const fallos = Number(props.getProperty("FALLOS") || 0) + 1;
+      if (fallos >= MAX_FALLOS) {
+        props.setProperty("BLOQUEO_HASTA", String(ahoraMs + MINUTOS_BLOQUEO * 60000));
+        props.setProperty("FALLOS", "0");
+      } else {
+        props.setProperty("FALLOS", String(fallos));
+      }
+      return json_({ ok: false, error: "pin" });
+    }
+    props.setProperty("FALLOS", "0");
     const h = hoja_();
     const ultima = h.getLastRow();
     const total = Math.max(0, ultima - 1);
