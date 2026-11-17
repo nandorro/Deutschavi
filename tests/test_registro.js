@@ -114,6 +114,25 @@ const q = (w, s) => w.document.querySelector(s);
   assert(!q(w, "#panel-registro img"), "el HTML debe ir escapado");
   console.log("OK escapado");
 
+  // ---- «Qué falta a cada alumno»
+  const F = (n, ev, det) => ["2026-11-17", "10:00:00", n, "iPhone", "", ev, det];
+  const res = w.Registro.resumenAlumnos([
+    F("Ana", "juego", "Números"), F("Ana", "progreso", "Números: 3/5 aciertos · racha 1"),
+    F("Ana", "progreso", "Números: 8/10 aciertos · racha 2"), F("Ana", "juego", "La hora"),
+    F("Ana", "progreso", "Perfekt en la frase: 2/5 aciertos · racha 0"),
+  ], 4);
+  const ana = res[0];
+  assert.strictEqual(ana.estados.length, 9, "semana 4: 9 apartados (sin Vocabulario)");
+  assert.deepStrictEqual(JSON.parse(JSON.stringify(ana.estados[0])), { titulo: "Números", estado: "hecho", a: 8, i: 10 });
+  assert.strictEqual(ana.estados.find((e) => e.titulo === "La hora").estado, "abierto");
+  assert.strictEqual(ana.estados.find((e) => e.titulo === "El Perfekt en una frase").estado, "hecho");
+  assert.strictEqual(ana.estados.find((e) => e.titulo === "Verbos separables").estado, "falta");
+  assert.strictEqual(ana.faltan, 7);
+  q(w, "#reg-falta").click();
+  await esperar(() => q(w, ".alumno-falta"));
+  assert(q(w, "#panel-registro").textContent.includes("faltan"), "el panel muestra lo que falta");
+  console.log("OK qué falta");
+
   servidor.close();
   process.exit(0);
 })().catch((e) => { console.error("FALLO", e); process.exit(1); });

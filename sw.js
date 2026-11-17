@@ -1,5 +1,5 @@
 // Primero la red (así cada actualización llega sola); sin conexión, la copia guardada.
-const CACHE = "deutschavi-v3";
+const CACHE = "deutschavi-v4";
 const ARCHIVOS = [
   "./", "index.html", "css/estilo.css", "manifest.webmanifest",
   "js/config.js", "js/util.js", "js/registro.js", "js/numeros_de.js", "js/numeros.js", "js/verbos.js",

@@ -110,6 +110,63 @@
         </tbody></table></div>`;
   }
 
+  // ---------- qué falta a cada alumno
+  // titulo = lo que se anota al abrir el juego; nombre = prefijo del evento «progreso»
+  const APARTADOS = [
+    { titulo: "Números", nombre: "Números", semana: 1 },
+    { titulo: "Verbos separables", nombre: "Verbos separables", semana: 1 },
+    { titulo: "Frases desordenadas", nombre: "Frases desordenadas", semana: 1 },
+    { titulo: "¿Qué mayúscula falta?", nombre: "¿Qué mayúscula falta?", semana: 1 },
+    { titulo: "¿Sein o haben?", nombre: "¿Sein o haben?", semana: 4 },
+    { titulo: "El Perfekt en una frase", nombre: "Perfekt en la frase", semana: 4 },
+    { titulo: "La hora", nombre: "La hora", semana: 4 },
+    { titulo: "Conjuga el verbo", nombre: "Conjuga el verbo", semana: 4 },
+    { titulo: "El verbo modal en la frase", nombre: "Verbo modal en la frase", semana: 4 },
+    { titulo: "Vocabulario: artículo y plural", nombre: "Vocabulario", semana: 5 },
+  ];
+
+  // Para cada alumno y apartado: "hecho" (con aciertos/intentos), "abierto" (sin 5 intentos aún) o "falta"
+  function resumenAlumnos(filas, semana) {
+    const apartados = APARTADOS.filter((a) => a.semana <= (semana || 99));
+    const alumnos = new Map();
+    for (const f of filas) {
+      const clave = String(f[2]).trim().toLowerCase();
+      if (!clave) continue;
+      if (!alumnos.has(clave)) alumnos.set(clave, { nombre: String(f[2]).trim(), abiertos: new Set(), prog: {} });
+      const al = alumnos.get(clave);
+      const ev = f[5], det = String(f[6] || "");
+      if (ev === "juego") al.abiertos.add(det);
+      if (ev === "progreso") {
+        const m = det.match(/^(.*): (\d+)\/(\d+) aciertos/);
+        if (!m) continue;
+        const ap = apartados.find((a) => a.nombre === m[1]);
+        if (!ap) continue;
+        const i = +m[3];
+        if (!al.prog[ap.titulo] || i >= al.prog[ap.titulo].i) al.prog[ap.titulo] = { a: +m[2], i };
+      }
+    }
+    return [...alumnos.values()].sort((x, y) => x.nombre.localeCompare(y.nombre, "es")).map((al) => {
+      const estados = apartados.map((ap) => {
+        const p = al.prog[ap.titulo];
+        if (p) return { titulo: ap.titulo, estado: "hecho", a: p.a, i: p.i };
+        if (al.abiertos.has(ap.titulo)) return { titulo: ap.titulo, estado: "abierto" };
+        return { titulo: ap.titulo, estado: "falta" };
+      });
+      return { nombre: al.nombre, estados, faltan: estados.filter((e) => e.estado !== "hecho").length };
+    });
+  }
+
+  function faltaHtml(d) {
+    const res = resumenAlumnos(d.filas, root.SEMANA_ACTUAL);
+    if (!res.length) return `<p>Todavía no hay alumnos registrados.</p>`;
+    return `<p class="nota">✅ practicado (aciertos/intentos) · 👀 abierto, menos de 5 intentos · ❌ sin abrir.
+        Solo cuentan los últimos ${d.filas.length} registros.</p>` + res.map((al) => `
+      <div class="alumno-falta"><p><b>${esc(al.nombre)}</b> — ${al.estados.length - al.faltan}/${al.estados.length} apartados
+        ${al.faltan ? `· faltan ${al.faltan}` : "· ¡todo hecho! 🎉"}</p><ul class="lista-falta">
+        ${al.estados.map((e) => `<li>${e.estado === "hecho" ? `✅ ${esc(e.titulo)} <span class="nota">${e.a}/${e.i}</span>`
+          : e.estado === "abierto" ? `👀 ${esc(e.titulo)}` : `❌ ${esc(e.titulo)}`}</li>`).join("")}</ul></div>`).join("");
+  }
+
   function abrirPanel() {
     if (document.getElementById("panel-registro")) return;
     const capa = document.createElement("div");
@@ -143,8 +200,17 @@
         const d = await leer(pin);
         if (!d.ok) { guardarPin(""); return pedirPin(d.error === "pin" ? "PIN incorrecto." : d.error === "bloqueado" ? "Demasiados intentos. Espera 15 minutos." : "No se pudo leer el registro."); }
         guardarPin(pin);
-        cuerpo.innerHTML = tabla(d) + `<button class="btn" id="reg-refrescar" type="button">↻ Actualizar</button>`;
-        cuerpo.querySelector("#reg-refrescar").onclick = () => cargar(pin);
+        const mostrar = (vista) => {
+          cuerpo.innerHTML = `<div class="acciones-sesion">
+            <button class="btn ${vista === "falta" ? "primario" : ""}" id="reg-falta" type="button">👥 Qué falta a cada alumno</button>
+            <button class="btn ${vista === "tabla" ? "primario" : ""}" id="reg-lista" type="button">📋 Accesos</button></div>`
+            + (vista === "falta" ? faltaHtml(d) : tabla(d))
+            + `<button class="btn" id="reg-refrescar" type="button">↻ Actualizar</button>`;
+          cuerpo.querySelector("#reg-falta").onclick = () => mostrar("falta");
+          cuerpo.querySelector("#reg-lista").onclick = () => mostrar("tabla");
+          cuerpo.querySelector("#reg-refrescar").onclick = () => cargar(pin);
+        };
+        mostrar("tabla");
       } catch (e) {
         pedirPin("Sin conexión con la hoja de Google. Inténtalo de nuevo.");
       }
@@ -168,5 +234,5 @@
     if (activo()) { await pedirNombre(); evento("entrada", ""); }
   }
 
-  root.Registro = { iniciar, evento, pedirNombre, activo, nombre, dispositivo, cerrarSesion };
+  root.Registro = { iniciar, evento, pedirNombre, activo, nombre, dispositivo, cerrarSesion, resumenAlumnos };
 })(window);
