@@ -60,6 +60,8 @@ input[type=text]:focus, select:focus { outline: none; border-color: var(--teal);
   border: 2px solid var(--teal); background: #fff; color: var(--teal-osc); width: 100%; margin-top: .7rem; }
 .btn.primario { background: var(--teal); color: #fff; }
 .btn:disabled { opacity: .4; cursor: default; }
+.acciones-sesion { display: flex; gap: .6rem; margin: .8rem 0 .4rem; }
+.acciones-sesion .btn { flex: 1; min-height: 44px; background: #fff; color: var(--teal-osc); border: 2px solid var(--menta); }
 .btn:active:not(:disabled) { transform: scale(.98); }
 
 .segmentos { display: flex; gap: .4rem; margin: .2rem 0 .5rem; }

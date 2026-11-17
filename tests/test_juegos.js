@@ -8,11 +8,11 @@ const { palabra } = require("../js/numeros_de.js");
 
 const RAIZ = path.join(__dirname, "..");
 
-async function abrir(ruta) {
+async function abrir(ruta, urlRegistro = "") {
   const dom = await JSDOM.fromFile(path.join(RAIZ, "index.html"), {
     runScripts: "dangerously", resources: "usable", pretendToBeVisual: true,
     // los juegos se prueban sin registro (no escribir en la hoja real)
-    beforeParse(w) { Object.defineProperty(w, "REGISTRO_URL", { get: () => "", set() {} }); },
+    beforeParse(w) { Object.defineProperty(w, "REGISTRO_URL", { get: () => urlRegistro, set() {} }); },
     url: "file:///" + RAIZ.replace(/\\/g, "/") + "/index.html#/" + ruta,
   });
   const w = dom.window;
@@ -227,8 +227,78 @@ async function vocabulario() {
   assert.deepStrictEqual(w.document.errores, []);
 }
 
+async function conjugar() {
+  const w = await abrir("conjugar");
+  assert(!w.document.errores.length, w.document.errores.join());
+  const { MODALES, PRAETERITUM } = w.ModalesDe;
+  for (const [modo, tabla] of [[0, MODALES], [1, PRAETERITUM]]) {
+    qa(w, ".seg")[modo].click();
+    for (let i = 0; i < 4; i++) {
+      const [etq, verbo] = q(w, ".numero-grande").textContent.split(" · ");
+      const pron = etq.split(" ")[0];
+      const forma = tabla[verbo][pron];
+      escribir(w, i % 2 ? `${pron} ${forma}` : forma);
+      assert(q(w, ".resultado.ok"), `${pron} ${verbo}`);
+      q(w, "#sig").click();
+    }
+  }
+  escribir(w, "xxx");
+  assert(q(w, ".resultado.ko"));
+  assert.deepStrictEqual(w.document.errores, []);
+}
+
+async function modales() {
+  const w = await abrir("modales");
+  assert(!w.document.errores.length, w.document.errores.join());
+  const { MODALES, USO } = w.ModalesDe;
+  for (let i = 0; i < 4; i++) {
+    const hueco = q(w, ".tarjeta .frase-grande").textContent;
+    const f = w.MODALES_FRASES.find((x) => x.de.split(" ")[0] === hueco.split(" ")[0] && x.de.split(" ").slice(2).join(" ") === hueco.split(" ").slice(2).join(" "));
+    assert(f, "frase: " + hueco);
+    assert.strictEqual(qa(w, ".opcion").length, 4);
+    qa(w, ".opcion").find((b) => b.dataset.o === MODALES[f.modal][f.pron]).click();
+    assert(q(w, ".resultado.ok"));
+    q(w, "#sig").click();
+  }
+  const f2 = w.MODALES_FRASES.find((x) => x.de.split(" ").slice(2).join(" ") === q(w, ".tarjeta .frase-grande").textContent.split(" ").slice(2).join(" "));
+  qa(w, ".opcion").find((b) => b.dataset.o !== MODALES[f2.modal][f2.pron]).click();
+  assert(q(w, ".resultado.ko"));
+  q(w, "#sig").click();
+  qa(w, ".seg")[1].click();
+  for (let i = 0; i < 4; i++) {
+    const uso = q(w, ".numero-grande").textContent;
+    const modal = Object.keys(USO).find((m) => USO[m] === uso);
+    qa(w, ".opcion").find((b) => b.dataset.o === modal).click();
+    assert(q(w, ".resultado.ok"));
+    q(w, "#sig").click();
+  }
+  assert.deepStrictEqual(w.document.errores, []);
+}
+
+async function sesion() {
+  // con el registro activo: cerrar sesión borra nombre y marcador y vuelve a pedir el nombre
+  const w = await abrir("", "https://registro.invalido.test/exec");
+  await new Promise((r) => setTimeout(r, 100));
+  q(w, "#reg-nombre").value = "Ana";
+  q(w, ".capa form").dispatchEvent(new w.Event("submit", { cancelable: true }));
+  await new Promise((r) => setTimeout(r, 100));
+  w.U.registrar("numeros", true);
+  assert.strictEqual(w.U.marcadorDe("numeros").a, 1);
+  assert(q(w, "#recargar") && q(w, "#cerrar-sesion"), "botones de sesión en el inicio");
+  w.confirm = () => true;
+  q(w, "#cerrar-sesion").click();
+  await new Promise((r) => setTimeout(r, 150));
+  assert(q(w, "#reg-nombre"), "tras cerrar sesión se vuelve a pedir el nombre");
+  assert.strictEqual(w.Registro.nombre(), "", "nombre olvidado");
+  assert.strictEqual(w.U.marcadorDe("numeros").a, 0, "marcador a cero");
+  q(w, "#reg-nombre").value = "Beto";
+  q(w, ".capa form").dispatchEvent(new w.Event("submit", { cancelable: true }));
+  await new Promise((r) => setTimeout(r, 150));
+  assert(q(w, "#app").textContent.includes("Entras como Beto"));
+}
+
 (async () => {
-  for (const [nombre, fn] of Object.entries({ numeros, verbos, frases, mayusculas, auxiliar, perfekt, hora, vocabulario })) {
+  for (const [nombre, fn] of Object.entries({ numeros, verbos, frases, mayusculas, auxiliar, perfekt, hora, vocabulario, conjugar, modales, sesion })) {
     await fn();
     console.log("OK", nombre);
   }

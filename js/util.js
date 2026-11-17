@@ -76,7 +76,8 @@
   const KEY = "deutschavi_marcador_v1";
   const NOMBRES = { numeros: "Números", verbos: "Verbos separables", frases: "Frases desordenadas",
     mayusculas: "¿Qué mayúscula falta?", auxiliar: "¿Sein o haben?", perfekt: "Perfekt en la frase",
-    hora: "La hora", vocabulario: "Vocabulario" };
+    hora: "La hora", vocabulario: "Vocabulario",
+    conjugar: "Conjuga el verbo", modales: "Verbo modal en la frase" };
   const marcadorDe = (juego) => (almacen.leer(KEY, {})[juego] || { a: 0, i: 0, r: 0 });
   function registrar(juego, acierto) {
     const todo = almacen.leer(KEY, {});

@@ -18,6 +18,8 @@ añadir a la pantalla de inicio del iPhone (Safari → Compartir → *Añadir a 
 | **El Perfekt en una frase** | (Tema 3 y 3.5) Dado el infinitivo y el pronombre, escribe auxiliar + Partizip II; o completa frases del temario. |
 | **La hora** | (Tema 3) Te sale una hora y la escribes en alemán: formal (24 h) o coloquial (halb, Viertel nach/vor…). |
 | **Vocabulario: artículo y plural** | (Tema 3.5) Bebidas, restaurante, ciudad y transporte: der/die/das y plural. |
+| **Conjuga el verbo** | (Tema 3) Escribe la forma de können, müssen, mögen, möchten, o el Präteritum de sein y haben. |
+| **El verbo modal en la frase** | (Tema 3) Elige el modal que falta en la frase, o qué modal expresa capacidad, obligación, gusto o deseo. |
 
 Sin teclado alemán se acepta `ae/oe/ue/ss` en lugar de `ä/ö/ü/ß`.
 
@@ -28,6 +30,8 @@ dispositivo, juego y **progreso** (cada 5 intentos: aciertos y racha). Está pro
 hoja de Google de tu Drive. Está **desactivado** hasta que pongas `REGISTRO_URL`; los pasos
 (3 minutos) están en [`registro/LEEME.md`](registro/LEEME.md). Cuando está activo, la app pide el
 nombre del alumno al entrar y le avisa de que el profesor verá sus accesos.
+
+En el inicio, **↻ Recargar** trae siempre la última versión (borra la copia guardada) y **Cerrar sesión** olvida el nombre y el marcador de este dispositivo.
 
 ## Es una web estática
 

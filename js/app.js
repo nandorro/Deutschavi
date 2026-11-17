@@ -17,6 +17,8 @@ const JUEGOS = [
   { id: "auxiliar", titulo: "¿Sein o haben?", icono: "⚖️", texto: "Elige el auxiliar del Perfekt: ¿fahren va con sein o con haben?", semana: 4 },
   { id: "perfekt", titulo: "El Perfekt en una frase", icono: "⏪", texto: "Dado el infinitivo, escribe el Perfekt: auxiliar en posición 2 y Partizip II al final.", semana: 4 },
   { id: "hora", titulo: "La hora", icono: "🕐", texto: "Te sale una hora y la dices en alemán: formal (14:30) o coloquial (halb drei).", semana: 4 },
+  { id: "conjugar", titulo: "Conjuga el verbo", icono: "🗣️", texto: "Escribe la forma correcta de können, müssen, mögen, möchten… y de war / hatte.", semana: 4 },
+  { id: "modales", titulo: "El verbo modal en la frase", icono: "🧰", texto: "Elige el modal que falta en la frase y aprende qué expresa cada uno.", semana: 4 },
   { id: "vocabulario", titulo: "Vocabulario: artículo y plural", icono: "🍽️", texto: "Bebidas, restaurante, ciudad y transporte: ¿der, die o das? ¿Cuál es el plural?", semana: 5 },
 ];
 
@@ -34,9 +36,29 @@ function inicio(el) {
         <span class="flecha">›</span></a>`).join("") +
     `<p class="nota centro">Bis bald! — ¡Hasta pronto!</p>` +
     (Registro.activo() && Registro.nombre()
-      ? `<p class="nota centro">Entras como <b>${U.esc(Registro.nombre())}</b> · <a href="#/" id="cambiar-nombre">cambiar</a></p>` : "");
+      ? `<p class="nota centro">Entras como <b>${U.esc(Registro.nombre())}</b> · <a href="#/" id="cambiar-nombre">cambiar</a></p>` : "") +
+    `<div class="acciones-sesion"><button class="btn" id="recargar">↻ Recargar</button>` +
+    `<button class="btn" id="cerrar-sesion">Cerrar sesión</button></div>`;
   const cambiar = el.querySelector("#cambiar-nombre");
   if (cambiar) cambiar.onclick = (e) => { e.preventDefault(); Registro.pedirNombre().then(() => inicio(el)); };
+  el.querySelector("#recargar").onclick = recargar;
+  el.querySelector("#cerrar-sesion").onclick = async () => {
+    if (!confirm("¿Cerrar sesión? Se borrará tu nombre y tu marcador en este dispositivo.")) return;
+    await Registro.cerrarSesion();
+    inicio(el);
+  };
+}
+
+// Recargar: descarta la copia guardada para traer siempre la última versión
+async function recargar() {
+  try {
+    if (navigator.serviceWorker) {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map((r) => r.unregister()));
+    }
+    if (window.caches) await Promise.all((await caches.keys()).map((k) => caches.delete(k)));
+  } catch (e) { /* si algo falla, se recarga igualmente */ }
+  location.reload();
 }
 
 function navegar() {
