@@ -95,6 +95,15 @@ input[type=text]:focus, select:focus { outline: none; border-color: var(--teal);
 .palabra .bien, .cinta .bien { color: var(--verde); font-weight: 800; }
 .tuya { font-size: 1.05rem; color: var(--gris); word-break: break-word; }
 .tuya .extra, .cinta .sobra { color: #b4570f; text-decoration: line-through; }
+.ficha.fija { background: #5b7f83; }
+.bloque { padding: .05rem .4rem; border-radius: 8px; white-space: nowrap; }
+.bloque sup { font-size: .6em; font-weight: 800; margin-left: .15rem; }
+.bloque-te { background: #fff3c4; } .bloque-ka { background: #ffd9d9; } .bloque-mo { background: #d9ecff; } .bloque-lo { background: #d8f5dc; }
+.tekamolo-grande { font-size: 2rem; font-weight: 900; letter-spacing: .04em; color: var(--verde); text-align: center; margin: .3rem 0; word-break: break-word; }
+.tekamolo-grande.ko { color: var(--rojo); }
+.silabas { display: flex; gap: .35rem; justify-content: center; margin: .2rem 0 .6rem; }
+.sil { font-weight: 800; padding: .15rem .55rem; border-radius: 10px; }
+.sil-te { background: #fff3c4; } .sil-ka { background: #ffd9d9; } .sil-mo { background: #d9ecff; } .sil-lo { background: #d8f5dc; }
 .cinta { font-size: 1.25rem; font-weight: 600; line-height: 2; }
 
 /* ---- registro de accesos: botón ? y ventanas */

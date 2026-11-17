@@ -275,6 +275,67 @@ async function modales() {
   assert.deepStrictEqual(w.document.errores, []);
 }
 
+async function aduso() {
+  const w = await abrir("aduso");
+  assert(!w.document.errores.length, w.document.errores.join());
+  const A = w.AdusoDe;
+  // todos los tipos: el verbo en la posición que dice la regla (1 o 2) y 3 opciones distintas
+  for (const tipo of A.ORDEN_TIPOS) {
+    const c = A.construir(tipo, A.BASES[0], A.TIEMPO[0], A.LUGAR[0], A.PREGUNTAS[0]);
+    assert.strictEqual(new Set(A.opciones(c)).size, 3, "3 opciones distintas: " + tipo);
+    assert(A.opciones(c).includes(A.correcta(c)));
+    const pal = A.correcta(c).replace(/[.?!]$/, "").toLowerCase().split(" ");
+    assert.strictEqual(pal.indexOf(c.verbo.toLowerCase()) + 1, c.tipo === "ja_nein" || c.tipo === "imperativo" ? 1 : 2, tipo);
+  }
+  assert.strictEqual(A.correcta(A.construir("tiempo", A.BASES[0], A.TIEMPO[0], A.LUGAR[0], A.PREGUNTAS[0])), "Heute lerne ich Deutsch.");
+  assert.strictEqual(A.correcta(A.construir("ja_nein", A.BASES[0], A.TIEMPO[0], A.LUGAR[0], A.PREGUNTAS[0])), "Lernst du heute Deutsch?");
+  // en el juego: acertar en los dos modos, y fallar (frases correctas posibles de todos los casos)
+  const buenas = new Set();
+  for (const tipo of A.ORDEN_TIPOS) for (const b of A.BASES) for (const te of A.TIEMPO) for (const lo of A.LUGAR) for (const pr of A.PREGUNTAS)
+    buenas.add(A.correcta(A.construir(tipo, b, te, lo, pr)));
+  for (const modo of [0, 1]) {
+    qa(w, ".seg")[modo].click();
+    for (let i = 0; i < 8; i++) {
+      const correcta = modo === 0 ? qa(w, ".opcion").map((b) => b.dataset.o).find((o) => buenas.has(o)) : null;
+      if (modo === 0) { assert(correcta, "hay opción correcta"); qa(w, ".opcion").find((b) => b.dataset.o === correcta).click(); }
+      else {
+        const nombre = q(w, ".tarjeta .etiqueta").textContent.split(":")[0];
+        const t = Object.values(A.TIPOS).find((x) => x.nombre === nombre);
+        qa(w, ".opcion").find((b) => b.dataset.o === "Posición " + t.pos).click();
+      }
+      assert(q(w, ".resultado.ok"), "aduso modo " + modo);
+      q(w, "#sig").click();
+    }
+  }
+  qa(w, ".opcion")[0].click();
+  assert(q(w, ".resultado"), "hay resultado");
+  assert.deepStrictEqual(w.document.errores, []);
+}
+async function tekamolo() {
+  const w = await abrir("tekamolo");
+  assert(!w.document.errores.length, w.document.errores.join());
+  const T = w.TekamoloDe;
+  assert.strictEqual(T.palabra(["KA", "TE", "MO", "LO"]), "KATEMOLO");
+  assert(T.evaluar(["TE", "KA", "MO", "LO"]).ok && !T.evaluar(["MO", "LO", "KA", "TE"]).ok);
+  const f = () => T.FRASES.find((x) => x.es === q(w, ".tarjeta .frase-grande").textContent);
+  const pulsar = (tipos) => { const fr = f(); for (const t of tipos) qa(w, ".chip").find((c) => c.textContent === fr[t.toLowerCase()]).click(); };
+  pulsar(["TE", "KA", "MO", "LO"]);
+  q(w, "#comprobar").click();
+  assert(q(w, ".resultado.ok"), "TEKAMOLO debía acertar");
+  assert(q(w, ".tekamolo-grande").textContent.includes("TEKAMOLO!!!!!!"));
+  q(w, "#sig").click();
+  pulsar(["KA", "TE", "MO", "LO"]);
+  q(w, "#comprobar").click();
+  assert(q(w, ".resultado.ko"), "KATEMOLO debía fallar");
+  assert.strictEqual(q(w, ".tekamolo-grande").textContent, "KATEMOLO");
+  assert(q(w, ".resultado").textContent.includes("Da fehlt noch etwas"));
+  q(w, "#sig").click();
+  pulsar(["MO", "LO", "KA", "TE"]);
+  q(w, "#comprobar").click();
+  assert.strictEqual(q(w, ".tekamolo-grande").textContent, "MOLOKATE");
+  assert.deepStrictEqual(w.document.errores, []);
+}
+
 async function sesion() {
   // con el registro activo: cerrar sesión borra el nombre (conserva el marcador) y vuelve a pedir el nombre
   const w = await abrir("", "https://registro.invalido.test/exec");
@@ -298,7 +359,7 @@ async function sesion() {
 }
 
 (async () => {
-  for (const [nombre, fn] of Object.entries({ numeros, verbos, frases, mayusculas, auxiliar, perfekt, hora, vocabulario, conjugar, modales, sesion })) {
+  for (const [nombre, fn] of Object.entries({ numeros, verbos, frases, mayusculas, auxiliar, perfekt, hora, vocabulario, conjugar, modales, aduso, tekamolo, sesion })) {
     await fn();
     console.log("OK", nombre);
   }

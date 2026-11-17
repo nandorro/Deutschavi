@@ -20,6 +20,8 @@ añadir a la pantalla de inicio del iPhone (Safari → Compartir → *Añadir a 
 | **Vocabulario: artículo y plural** | (Tema 3.5) Bebidas, restaurante, ciudad y transporte: der/die/das y plural. |
 | **Conjuga el verbo** | (Tema 3) Escribe la forma de können, müssen, mögen, möchten, o el Präteritum de sein y haben. |
 | **El verbo modal en la frase** | (Tema 3) Elige el modal que falta en la frase, o qué modal expresa capacidad, obligación, gusto o deseo. |
+| **Aduso** | ¿Dónde va el verbo, en la posición 1 o en la 2? Frase afirmativa, adverbio de tiempo o de lugar al inicio, pregunta de sí/no, pregunta con palabra W e imperativo. |
+| **TeKaMoLo** | Ordena los bloques de tiempo, causa, modo y lugar de una frase completa. Si aciertas sale **TEKAMOLO!!!!!!**; si no, la palabra que formaste (KATEMOLO, MOLOKATE…) y «Da fehlt noch etwas!». |
 
 Sin teclado alemán se acepta `ae/oe/ue/ss` en lugar de `ä/ö/ü/ß`.
 

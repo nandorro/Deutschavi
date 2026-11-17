@@ -19,6 +19,8 @@ const JUEGOS = [
   { id: "hora", titulo: "La hora", icono: "🕐", texto: "Te sale una hora y la dices en alemán: formal (14:30) o coloquial (halb drei).", semana: 4 },
   { id: "conjugar", titulo: "Conjuga el verbo", icono: "🗣️", texto: "Escribe la forma correcta de können, müssen, mögen, möchten… y de war / hatte.", semana: 4 },
   { id: "modales", titulo: "El verbo modal en la frase", icono: "🧰", texto: "Elige el modal que falta en la frase y aprende qué expresa cada uno.", semana: 4 },
+  { id: "aduso", titulo: "Aduso", icono: "🎯", texto: "¿Dónde va el verbo: posición 1 o 2? Con adverbios de tiempo y de lugar, preguntas y órdenes.", semana: 5 },
+  { id: "tekamolo", titulo: "TeKaMoLo", icono: "🧩", texto: "Ordena los bloques de tiempo, causa, modo y lugar. Si aciertas… ¡TEKAMOLO!", semana: 5 },
   { id: "vocabulario", titulo: "Vocabulario: artículo y plural", icono: "🍽️", texto: "Bebidas, restaurante, ciudad y transporte: ¿der, die o das? ¿Cuál es el plural?", semana: 5 },
 ];
 
