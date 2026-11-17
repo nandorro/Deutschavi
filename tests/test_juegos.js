@@ -135,8 +135,100 @@ async function mayusculas() {
   assert.deepStrictEqual(w.document.errores, []);
 }
 
+// ---- juegos de las semanas 4 y 5 (Perfekt, hora, vocabulario)
+const escribir = (w, texto) => {
+  q(w, "#resp").value = texto;
+  q(w, "#f").dispatchEvent(new w.Event("submit", { cancelable: true }));
+};
+
+async function auxiliar() {
+  const w = await abrir("auxiliar");
+  assert(!w.document.errores.length, w.document.errores.join());
+  for (let i = 0; i < 6; i++) {          // salen tanto verbos con sein como con haben
+    const inf = q(w, ".numero-grande").childNodes[0].textContent;
+    const v = w.PERFEKT.find((x) => x.inf === inf);
+    qa(w, ".opcion").find((b) => b.dataset.o === v.aux).click();
+    assert(q(w, ".resultado.ok"), "auxiliar correcto: " + inf);
+    q(w, "#sig").click();
+  }
+  const v = w.PERFEKT.find((x) => x.inf === q(w, ".numero-grande").childNodes[0].textContent);
+  qa(w, ".opcion").find((b) => b.dataset.o !== v.aux).click();
+  assert(q(w, ".resultado.ko"), "auxiliar incorrecto");
+  assert(q(w, ".resultado").textContent.includes(v.part), "debe enseñar el Partizip II");
+  assert.deepStrictEqual(w.document.errores, []);
+}
+
+async function perfekt() {
+  const w = await abrir("perfekt");
+  assert(!w.document.errores.length, w.document.errores.join());
+  const { AUX } = w.PerfektDe;
+  // modo 1: infinitivo + pronombre → auxiliar + Partizip II
+  const [etq, inf] = q(w, ".numero-grande").textContent.split(" · ");
+  const v = w.PERFEKT.find((x) => x.inf === inf);
+  const pron = etq.split(" ")[0];
+  escribir(w, `${AUX[v.aux][pron]} ${v.part}`);
+  assert(q(w, ".resultado.ok"), `perfekt ${pron} ${inf}`);
+  q(w, "#sig").click();
+  escribir(w, "xxx");
+  assert(q(w, ".resultado.ko"));
+  q(w, "#sig").click();
+  // modo 2: completar una frase del temario
+  qa(w, ".seg")[1].click();
+  const hueco = q(w, ".tarjeta .frase-grande").textContent;
+  const f = w.PERFEKT_FRASES.find((x) => x.de.split(" ")[0] === hueco.split(" ")[0] &&
+    x.de.split(" ").length === hueco.split(" ").length && x.de.includes(hueco.split(" ")[2]));
+  assert(f, "frase del hueco: " + hueco);
+  escribir(w, `${f.aux} ${f.part}`);
+  assert(q(w, ".resultado.ok"), "completar frase");
+  assert.deepStrictEqual(w.document.errores, []);
+}
+
+async function hora() {
+  const w = await abrir("hora");
+  assert(!w.document.errores.length, w.document.errores.join());
+  for (const modo of [0, 1]) {
+    qa(w, ".seg")[modo].click();
+    for (let i = 0; i < 5; i++) {
+      const [h, m] = q(w, ".numero-grande").textContent.split(":").map(Number);
+      const ok = modo === 0 ? w.HoraDe.formal(h, m) : w.HoraDe.coloquial(h, m);
+      escribir(w, ok[i % ok.length] + (i % 2 ? "." : ""));
+      assert(q(w, ".resultado.ok"), `hora ${h}:${m} modo ${modo}`);
+      q(w, "#sig").click();
+    }
+  }
+  escribir(w, "keine ahnung");
+  assert(q(w, ".resultado.ko"));
+  assert.deepStrictEqual(w.document.errores, []);
+}
+
+async function vocabulario() {
+  const w = await abrir("vocabulario");
+  assert(!w.document.errores.length, w.document.errores.join());
+  const nombre = () => q(w, ".numero-grande").childNodes[0].textContent;
+  for (let i = 0; i < 3; i++) {
+    const n = w.VOCAB.find((x) => x.sing === nombre());
+    qa(w, ".opcion").find((b) => b.dataset.o === n.art).click();
+    assert(q(w, ".resultado.ok"), "artículo " + n.sing);
+    q(w, "#sig").click();
+  }
+  const n0 = w.VOCAB.find((x) => x.sing === nombre());
+  qa(w, ".opcion").find((b) => b.dataset.o !== n0.art).click();
+  assert(q(w, ".resultado.ko"));
+  q(w, "#sig").click();
+  qa(w, ".seg")[1].click();
+  for (let i = 0; i < 3; i++) {
+    const art = q(w, ".numero-grande").childNodes[0].textContent.split(" ");
+    const n = w.VOCAB.find((x) => x.sing === art.slice(1).join(" "));
+    assert(n.plural, "solo salen sustantivos con plural");
+    escribir(w, i % 2 ? `die ${n.plural}` : n.plural);
+    assert(q(w, ".resultado.ok"), "plural " + n.sing);
+    q(w, "#sig").click();
+  }
+  assert.deepStrictEqual(w.document.errores, []);
+}
+
 (async () => {
-  for (const [nombre, fn] of Object.entries({ numeros, verbos, frases, mayusculas })) {
+  for (const [nombre, fn] of Object.entries({ numeros, verbos, frases, mayusculas, auxiliar, perfekt, hora, vocabulario })) {
     await fn();
     console.log("OK", nombre);
   }

@@ -1,10 +1,11 @@
 // Primero la red (así cada actualización llega sola); sin conexión, la copia guardada.
-const CACHE = "deutschavi-v1";
+const CACHE = "deutschavi-v2";
 const ARCHIVOS = [
   "./", "index.html", "css/estilo.css", "manifest.webmanifest",
   "js/config.js", "js/util.js", "js/registro.js", "js/numeros_de.js", "js/numeros.js", "js/verbos.js",
-  "js/frases.js", "js/mayusculas.js", "js/app.js",
-  "datos/frases.js", "datos/verbos_separables.js",
+  "js/frases.js", "js/mayusculas.js", "js/perfekt_de.js", "js/hora_de.js", "js/motor.js", "js/auxiliar.js",
+  "js/perfekt.js", "js/hora.js", "js/vocabulario.js", "js/app.js",
+  "datos/frases.js", "datos/verbos_separables.js", "datos/perfekt.js", "datos/perfekt_frases.js", "datos/vocabulario.js",
   "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png",
 ];
 

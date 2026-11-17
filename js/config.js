@@ -4,7 +4,7 @@
 //   Semana 1 -> Temas 0, 0.5 y 1   (números 0-100, saludos, países, preguntas...)
 //   Semana 2 -> Tema 2             (números hasta 1.000.000, rutina, verbos separables)
 //   Semana 3 -> Tema 2.5           (vocabulario 2, A.D.U.S.O., Te.Ka.Mo.Lo., más separables)
-window.SEMANA_ACTUAL = 3;
+window.SEMANA_ACTUAL = 5;
 
 // Registro de accesos en una hoja de Google. Vacío = desactivado (no se pide nombre).
 // Pasos para activarlo: registro/LEEME.md

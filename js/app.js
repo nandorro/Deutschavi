@@ -14,6 +14,10 @@ const JUEGOS = [
   { id: "verbos", titulo: "Verbos separables", icono: "🧩", texto: "Completa la frase con el prefijo que se va al final (aufstehen → ich stehe … auf)." },
   { id: "frases", titulo: "Frases desordenadas", icono: "🧵", texto: "Ordena las palabras para formar la frase correcta (¡y recuerda dónde va el verbo!)." },
   { id: "mayusculas", titulo: "¿Qué mayúscula falta?", icono: "🔠", texto: "En alemán todos los sustantivos llevan mayúscula. ¿Sabes cuáles?" },
+  { id: "auxiliar", titulo: "¿Sein o haben?", icono: "⚖️", texto: "Elige el auxiliar del Perfekt: ¿fahren va con sein o con haben?", semana: 4 },
+  { id: "perfekt", titulo: "El Perfekt en una frase", icono: "⏪", texto: "Dado el infinitivo, escribe el Perfekt: auxiliar en posición 2 y Partizip II al final.", semana: 4 },
+  { id: "hora", titulo: "La hora", icono: "🕐", texto: "Te sale una hora y la dices en alemán: formal (14:30) o coloquial (halb drei).", semana: 4 },
+  { id: "vocabulario", titulo: "Vocabulario: artículo y plural", icono: "🍽️", texto: "Bebidas, restaurante, ciudad y transporte: ¿der, die o das? ¿Cuál es el plural?", semana: 5 },
 ];
 
 function inicio(el) {
@@ -24,7 +28,7 @@ function inicio(el) {
        cada ejercicio sale del temario, sin sorpresas. Equivocarse forma parte del tratamiento. ¡Ánimo!</p>
     <div class="aviso-info">🩺 Contenido desbloqueado: <b>semana ${SEMANA_ACTUAL}</b>.
        Cada semana se añade material nuevo a medida que avanzáis.</div>` +
-    JUEGOS.map((j) => `<a class="juego" href="#/${j.id}">
+    JUEGOS.filter((j) => (j.semana || 1) <= SEMANA_ACTUAL).map((j) => `<a class="juego" href="#/${j.id}">
         <span class="icono">${j.icono}</span>
         <span><b>${U.esc(j.titulo)}</b><br><span class="texto">${U.esc(j.texto)}</span></span>
         <span class="flecha">›</span></a>`).join("") +
@@ -38,7 +42,7 @@ function inicio(el) {
 function navegar() {
   const main = document.getElementById("app");
   const id = (location.hash || "#/").replace(/^#\/?/, "");
-  const juego = JUEGOS.find((j) => j.id === id);
+  const juego = JUEGOS.find((j) => j.id === id && (j.semana || 1) <= SEMANA_ACTUAL);
   if (juego) { Registro.evento("juego", juego.titulo); Juegos[juego.id].iniciar(main); } else inicio(main);
   window.scrollTo(0, 0);
 }

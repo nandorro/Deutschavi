@@ -629,5 +629,145 @@ window.FRASES = [
   "alt": [
    "Am Mittag essen wir zusammen."
   ]
+ },
+ {
+  "de": "Ich bin nach Berlin gefahren.",
+  "es": "Fui / viajé a Berlín.",
+  "semana": 4,
+  "alt": []
+ },
+ {
+  "de": "Ich habe ein Auto gefahren.",
+  "es": "Manejé / conduje un auto.",
+  "semana": 4,
+  "alt": []
+ },
+ {
+  "de": "Er ist um 7 Uhr aufgestanden.",
+  "es": "Él se levantó a las 7.",
+  "semana": 4,
+  "alt": []
+ },
+ {
+  "de": "Er hat das Zimmer aufgeräumt.",
+  "es": "Él ordenó la habitación.",
+  "semana": 4,
+  "alt": []
+ },
+ {
+  "de": "Wir sind zu Hause geblieben.",
+  "es": "Nos quedamos en casa.",
+  "semana": 4,
+  "alt": []
+ },
+ {
+  "de": "Gestern war ich sehr müde.",
+  "es": "Ayer estaba muy cansado/a.",
+  "semana": 4,
+  "alt": [
+   "Ich war gestern sehr müde."
+  ]
+ },
+ {
+  "de": "Hattest du gestern Zeit?",
+  "es": "¿Tuviste / tenías tiempo ayer?",
+  "semana": 4,
+  "alt": [
+   "Gestern hattest du Zeit?"
+  ]
+ },
+ {
+  "de": "Wir waren letzten Sommer in Spanien.",
+  "es": "El verano pasado estuvimos en España.",
+  "semana": 4,
+  "alt": [
+   "Letzten Sommer waren wir in Spanien."
+  ]
+ },
+ {
+  "de": "Ich kann Deutsch sprechen.",
+  "es": "Sé / puedo hablar alemán.",
+  "semana": 4,
+  "alt": []
+ },
+ {
+  "de": "Er muss heute arbeiten.",
+  "es": "Él tiene que trabajar hoy.",
+  "semana": 4,
+  "alt": [
+   "Heute muss er arbeiten."
+  ]
+ },
+ {
+  "de": "Ich mag Kaffee.",
+  "es": "Me gusta el café.",
+  "semana": 4,
+  "alt": []
+ },
+ {
+  "de": "Ich möchte einen Tee trinken.",
+  "es": "Me gustaría tomar un té.",
+  "semana": 4,
+  "alt": []
+ },
+ {
+  "de": "Es ist vierzehn Uhr dreißig.",
+  "es": "Son las 14:30.",
+  "semana": 4,
+  "alt": []
+ },
+ {
+  "de": "Es ist neun Uhr fünfzehn.",
+  "es": "Son las 09:15.",
+  "semana": 4,
+  "alt": []
+ },
+ {
+  "de": "Es ist zwanzig Uhr fünfundvierzig.",
+  "es": "Son las 20:45.",
+  "semana": 4,
+  "alt": []
+ },
+ {
+  "de": "Es ist Viertel nach acht.",
+  "es": "Son las ocho y cuarto.",
+  "semana": 4,
+  "alt": []
+ },
+ {
+  "de": "Es ist halb neun.",
+  "es": "Son las ocho y media.",
+  "semana": 4,
+  "alt": []
+ },
+ {
+  "de": "Es ist Viertel vor neun.",
+  "es": "Son las nueve menos cuarto.",
+  "semana": 4,
+  "alt": []
+ },
+ {
+  "de": "Einen Kaffee, bitte!",
+  "es": "¡Un café, por favor!",
+  "semana": 5,
+  "alt": []
+ },
+ {
+  "de": "Die Speisekarte, bitte!",
+  "es": "¡La carta, por favor!",
+  "semana": 5,
+  "alt": []
+ },
+ {
+  "de": "Die Rechnung, bitte!",
+  "es": "¡La cuenta, por favor!",
+  "semana": 5,
+  "alt": []
+ },
+ {
+  "de": "Zusammen oder getrennt?",
+  "es": "¿Juntos o por separado?",
+  "semana": 5,
+  "alt": []
  }
 ];

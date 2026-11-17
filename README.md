@@ -14,6 +14,10 @@ añadir a la pantalla de inicio del iPhone (Safari → Compartir → *Añadir a 
 | **Verbos separables** | Completa la frase con el prefijo, o elige el prefijo de un verbo. |
 | **Frases desordenadas** | Toca las palabras para ordenar la frase. |
 | **¿Qué mayúscula falta?** | Fácil: falta una. Avanzado: marca todas las que llevan mayúscula. |
+| **¿Sein o haben?** | (Tema 3 y 3.5) Elige el auxiliar del Perfekt de cada verbo; si fallas, ves la regla y el Partizip II. |
+| **El Perfekt en una frase** | (Tema 3 y 3.5) Dado el infinitivo y el pronombre, escribe auxiliar + Partizip II; o completa frases del temario. |
+| **La hora** | (Tema 3) Te sale una hora y la escribes en alemán: formal (24 h) o coloquial (halb, Viertel nach/vor…). |
+| **Vocabulario: artículo y plural** | (Tema 3.5) Bebidas, restaurante, ciudad y transporte: der/die/das y plural. |
 
 Sin teclado alemán se acepta `ae/oe/ue/ss` en lugar de `ä/ö/ü/ß`.
 
@@ -41,12 +45,13 @@ cada `git push` a `main` actualiza la web en un minuto. En local basta abrir `in
     (la frase debe terminar con el prefijo).
 - **Números:** el generador (`js/numeros_de.js`) cubre 0 – 9.999.999; los niveles se definen en `js/numeros.js`.
 
-Semanas actuales: 1 = Temas 0, 0.5 y 1 · 2 = Tema 2 · 3 = Tema 2.5.
+Semanas actuales: 1 = Temas 0, 0.5 y 1 · 2 = Tema 2 · 3 = Tema 2.5 · 4 = Tema 3 · 5 = Tema 3.5.
 
 ## Pruebas
 
 ```bash
 node tests/test_numeros.js     # números contra los ejemplos del temario
+node tests/test_hora.js        # la hora contra los ejemplos del Tema 3
 npm i jsdom && node tests/test_juegos.js && node tests/test_registro.js   # juegos y registro simulando toques
 ```
 

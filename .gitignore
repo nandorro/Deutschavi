@@ -8,3 +8,6 @@ __pycache__/
 .streamlit/secrets.toml
 node_modules/
 package-lock.json
+
+Tema *.txt
+implementation.txt
