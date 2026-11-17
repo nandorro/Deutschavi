@@ -20,7 +20,7 @@ Sin teclado alemán se acepta `ae/oe/ue/ss` en lugar de `ä/ö/ü/ß`.
 ## Registro de accesos
 
 Botón pequeño **?** (abajo a la derecha) que muestra todos los accesos: nombre, fecha, hora,
-dispositivo y juego. Está protegido con un **PIN** que solo conoces tú. Los accesos se guardan en una
+dispositivo, juego y **progreso** (cada 5 intentos: aciertos y racha). Está protegido con un **PIN** que solo conoces tú. Los accesos se guardan en una
 hoja de Google de tu Drive. Está **desactivado** hasta que pongas `REGISTRO_URL`; los pasos
 (3 minutos) están en [`registro/LEEME.md`](registro/LEEME.md). Cuando está activo, la app pide el
 nombre del alumno al entrar y le avisa de que el profesor verá sus accesos.

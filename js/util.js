@@ -74,6 +74,8 @@
 
   // ---- marcador (aciertos · intentos · racha), recordado entre visitas
   const KEY = "deutschavi_marcador_v1";
+  const NOMBRES = { numeros: "Números", verbos: "Verbos separables", frases: "Frases desordenadas",
+    mayusculas: "¿Qué mayúscula falta?" };
   const marcadorDe = (juego) => (almacen.leer(KEY, {})[juego] || { a: 0, i: 0, r: 0 });
   function registrar(juego, acierto) {
     const todo = almacen.leer(KEY, {});
@@ -82,6 +84,10 @@
     if (acierto) { m.a++; m.r++; } else m.r = 0;
     todo[juego] = m;
     almacen.guardar(KEY, todo);
+    // Cada 5 intentos se anota el progreso en el registro del profesor (si está activo)
+    if (m.i % 5 === 0 && root.Registro) {
+      root.Registro.evento("progreso", `${NOMBRES[juego] || juego}: ${m.a}/${m.i} aciertos · racha ${m.r}`);
+    }
   }
   function marcadorHtml(juego) {
     const m = marcadorDe(juego);

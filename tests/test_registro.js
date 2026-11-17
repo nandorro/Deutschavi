@@ -83,6 +83,16 @@ const q = (w, s) => w.document.querySelector(s);
   await esperar(() => filas.some((f) => f[5] === "juego" && f[6] === "Números"));
   console.log("OK juego registrado");
 
+  // ---- el progreso se anota cada 5 intentos
+  for (let i = 0; i < 4; i++) w.U.registrar("numeros", i !== 2);  // 4 intentos: aún nada
+  await new Promise((r) => setTimeout(r, 200));
+  assert(!filas.some((f) => f[5] === "progreso"), "con 4 intentos no se anota progreso");
+  w.U.registrar("numeros", true);                                  // 5.º intento
+  await esperar(() => filas.some((f) => f[5] === "progreso"));
+  const prog = filas.find((f) => f[5] === "progreso");
+  assert.strictEqual(prog[6], "Números: 4/5 aciertos · racha 2", prog[6]);
+  console.log("OK progreso");
+
   // ---- el «?» pide PIN; con PIN malo no deja ver; con el bueno muestra la tabla
   q(w, "#btn-registro").click();
   q(w, "#reg-pin").value = "0000";
