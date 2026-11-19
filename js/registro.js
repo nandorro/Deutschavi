@@ -123,6 +123,8 @@
     { titulo: "Conjuga el verbo", nombre: "Conjuga el verbo", semana: 4 },
     { titulo: "El verbo modal en la frase", nombre: "Verbo modal en la frase", semana: 4 },
     { titulo: "Vocabulario: artículo y plural", nombre: "Vocabulario", semana: 5 },
+    { titulo: "Wie oft? (frecuencia)", nombre: "Wie oft", semana: 4 },
+    { titulo: "Sein, haben, war, hatte", nombre: "Sein y haben", semana: 4 },
     { titulo: "Aduso", nombre: "Aduso", semana: 5 },
     { titulo: "TeKaMoLo", nombre: "TeKaMoLo", semana: 5 },
   ];

@@ -336,6 +336,82 @@ async function tekamolo() {
   assert.deepStrictEqual(w.document.errores, []);
 }
 
+async function frecuencia() {
+  const w = await abrir("frecuencia");
+  assert(!w.document.errores.length, w.document.errores.join());
+  const F = w.FrecuenciaDe;
+  assert.strictEqual(F.GRUPOS.veces.lista.length + F.GRUPOS.unidades.lista.length + F.GRUPOS.habituales.lista.length, 12);
+  assert.strictEqual(F.combinar(F.VECES[2], F.UNIDADES[1]).de, "dreimal pro Woche");
+  assert.strictEqual(F.frase(F.ACTIVIDADES[0], F.HABITUALES[0]).principal, "Ich gehe jeden Tag ins Kino.");
+  assert.strictEqual(F.frase(F.ACTIVIDADES[1], F.VECES[1]).pregunta, "Wie oft trainierst du?");
+  const todos = [...F.VECES, ...F.UNIDADES, ...F.HABITUALES];
+  // modo 1: expresión suelta (de los tres grupos)
+  for (let i = 0; i < 10; i++) {
+    const x = todos.find((t) => t.es === q(w, ".numero-grande").textContent);
+    escribir(w, x.de);
+    assert(q(w, ".resultado.ok"), "expresión " + x.de);
+    q(w, "#sig").click();
+  }
+  // modo 2: número de veces + unidad
+  qa(w, ".seg")[1].click();
+  for (let i = 0; i < 6; i++) {
+    const es = q(w, ".numero-grande").textContent;
+    const c = F.combinarTodas().find((t) => t.es === es);
+    escribir(w, c.de);
+    assert(q(w, ".resultado.ok"), "combina " + c.de);
+    q(w, "#sig").click();
+  }
+  // modo 3: respuesta en una frase (las dos variantes valen)
+  qa(w, ".seg")[2].click();
+  for (let i = 0; i < 6; i++) {
+    const pregunta = q(w, ".numero-grande, .frase-grande", ).textContent;
+    const pista = q(w, ".pista").textContent.replace("Significado de la respuesta: ", "");
+    let hallada = null;
+    for (const a of F.ACTIVIDADES) for (const f of [...F.combinarTodas(), ...F.HABITUALES]) {
+      const s = F.frase(a, f);
+      if (s.es === pista && s.pregunta === pregunta) hallada = s;
+    }
+    assert(hallada, "frase de la pregunta: " + pregunta + " / " + pista);
+    escribir(w, i % 2 ? hallada.alternativa : hallada.principal);
+    assert(q(w, ".resultado.ok"), "frase " + hallada.principal);
+    q(w, "#sig").click();
+  }
+  escribir(w, "keine ahnung");
+  assert(q(w, ".resultado.ko"));
+  assert.deepStrictEqual(w.document.errores, []);
+}
+
+async function seinhaben() {
+  const w = await abrir("seinhaben");
+  assert(!w.document.errores.length, w.document.errores.join());
+  const S = w.SeinHabenDe;
+  for (const f of S.FRASES) assert(S.analizar(f.pron, f.forma), f.de);
+  const por = () => S.FRASES.find((f) => q(w, ".pista b").textContent === f.es || q(w, ".pista").textContent.includes(f.es));
+  for (let i = 0; i < 12; i++) {                  // completar: salen formas de sein/haben, presente y Präteritum
+    const f = por();
+    assert(f, "frase del hueco");
+    const ini = f.de.toLowerCase().startsWith(f.forma);
+    const forma = ini ? f.forma[0].toUpperCase() + f.forma.slice(1) : f.forma;
+    qa(w, ".opcion").find((b) => b.dataset.o === forma).click();
+    assert(q(w, ".resultado.ok"), "hueco " + f.de);
+    q(w, "#sig").click();
+  }
+  const f2 = por();
+  const mala = qa(w, ".opcion").find((b) => b.dataset.o.toLowerCase() !== f2.forma);
+  mala.click();
+  assert(q(w, ".resultado.ko"));
+  assert(q(w, ".resultado").textContent.includes(f2.de), "muestra la frase completa");
+  q(w, "#sig").click();
+  qa(w, ".seg")[1].click();                       // escribir la frase entera
+  for (let i = 0; i < 6; i++) {
+    const f = S.FRASES.find((x) => x.es === q(w, ".tarjeta .frase-grande").textContent);
+    escribir(w, f.de + (i % 2 ? "" : ""));
+    assert(q(w, ".resultado.ok"), "frase " + f.de);
+    q(w, "#sig").click();
+  }
+  assert.deepStrictEqual(w.document.errores, []);
+}
+
 async function sesion() {
   // con el registro activo: cerrar sesión borra el nombre (conserva el marcador) y vuelve a pedir el nombre
   const w = await abrir("", "https://registro.invalido.test/exec");
@@ -359,7 +435,7 @@ async function sesion() {
 }
 
 (async () => {
-  for (const [nombre, fn] of Object.entries({ numeros, verbos, frases, mayusculas, auxiliar, perfekt, hora, vocabulario, conjugar, modales, aduso, tekamolo, sesion })) {
+  for (const [nombre, fn] of Object.entries({ numeros, verbos, frases, mayusculas, auxiliar, perfekt, hora, vocabulario, conjugar, modales, aduso, tekamolo, frecuencia, seinhaben, sesion })) {
     await fn();
     console.log("OK", nombre);
   }

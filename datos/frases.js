@@ -769,5 +769,117 @@ window.FRASES = [
   "es": "¿Juntos o por separado?",
   "semana": 5,
   "alt": []
+ },
+ {
+  "de": "Ich gehe zweimal pro Woche ins Kino.",
+  "es": "Voy al cine dos veces a la semana.",
+  "semana": 4,
+  "alt": [
+   "Zweimal pro Woche gehe ich ins Kino."
+  ]
+ },
+ {
+  "de": "Wie oft gehst du ins Kino?",
+  "es": "¿Con qué frecuencia vas al cine?",
+  "semana": 4,
+  "alt": []
+ },
+ {
+  "de": "Ich trainiere dreimal pro Woche.",
+  "es": "Entreno tres veces a la semana.",
+  "semana": 4,
+  "alt": [
+   "Dreimal pro Woche trainiere ich."
+  ]
+ },
+ {
+  "de": "Sie trinkt jeden Tag Kaffee.",
+  "es": "Ella bebe café todos los días.",
+  "semana": 4,
+  "alt": [
+   "Jeden Tag trinkt sie Kaffee."
+  ]
+ },
+ {
+  "de": "Wir besuchen jedes Wochenende meine Eltern.",
+  "es": "Visitamos a mis padres todos los fines de semana.",
+  "semana": 4,
+  "alt": [
+   "Jedes Wochenende besuchen wir meine Eltern."
+  ]
+ },
+ {
+  "de": "Er geht einmal im Monat zum Arzt.",
+  "es": "Va al médico una vez al mes.",
+  "semana": 4,
+  "alt": [
+   "Einmal im Monat geht er zum Arzt."
+  ]
+ },
+ {
+  "de": "Wir fahren einmal im Jahr nach Spanien.",
+  "es": "Viajamos a España una vez al año.",
+  "semana": 4,
+  "alt": [
+   "Einmal im Jahr fahren wir nach Spanien."
+  ]
+ },
+ {
+  "de": "Jede Woche lerne ich Deutsch.",
+  "es": "Todas las semanas aprendo alemán.",
+  "semana": 4,
+  "alt": [
+   "Ich lerne jede Woche Deutsch."
+  ]
+ },
+ {
+  "de": "Ich habe heute keine Zeit.",
+  "es": "Hoy no tengo tiempo.",
+  "semana": 4,
+  "alt": [
+   "Heute habe ich keine Zeit."
+  ]
+ },
+ {
+  "de": "Wo warst du gestern?",
+  "es": "¿Dónde estuviste ayer?",
+  "semana": 4,
+  "alt": []
+ },
+ {
+  "de": "Der Arzt hatte gestern keine Zeit.",
+  "es": "Ayer el médico no tenía tiempo.",
+  "semana": 4,
+  "alt": [
+   "Gestern hatte der Arzt keine Zeit."
+  ]
+ },
+ {
+  "de": "Ihr wart letzte Woche in Berlin.",
+  "es": "La semana pasada estuvisteis en Berlín.",
+  "semana": 4,
+  "alt": [
+   "Letzte Woche wart ihr in Berlin."
+  ]
+ },
+ {
+  "de": "Wir müssen heute Deutsch lernen.",
+  "es": "Hoy tenemos que aprender alemán.",
+  "semana": 4,
+  "alt": [
+   "Heute müssen wir Deutsch lernen."
+  ]
+ },
+ {
+  "de": "Kannst du morgen kommen?",
+  "es": "¿Puedes venir mañana?",
+  "semana": 4,
+  "alt": []
+ },
+ {
+  "de": "Um wie viel Uhr kommst du?",
+  "es": "¿A qué hora vienes?",
+  "semana": 4,
+  "alt": []
  }
 ];

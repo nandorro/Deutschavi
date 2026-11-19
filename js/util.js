@@ -78,7 +78,8 @@
     mayusculas: "¿Qué mayúscula falta?", auxiliar: "¿Sein o haben?", perfekt: "Perfekt en la frase",
     hora: "La hora", vocabulario: "Vocabulario",
     conjugar: "Conjuga el verbo", modales: "Verbo modal en la frase",
-    aduso: "Aduso", tekamolo: "TeKaMoLo" };
+    aduso: "Aduso", tekamolo: "TeKaMoLo",
+    frecuencia: "Wie oft", seinhaben: "Sein y haben" };
   const marcadorDe = (juego) => (almacen.leer(KEY, {})[juego] || { a: 0, i: 0, r: 0 });
   function registrar(juego, acierto) {
     const todo = almacen.leer(KEY, {});

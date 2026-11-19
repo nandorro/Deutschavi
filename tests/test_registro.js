@@ -122,12 +122,12 @@ const q = (w, s) => w.document.querySelector(s);
     F("Ana", "progreso", "Perfekt en la frase: 2/5 aciertos · racha 0"),
   ], 4);
   const ana = res[0];
-  assert.strictEqual(ana.estados.length, 9, "semana 4: 9 apartados (sin Vocabulario)");
+  assert.strictEqual(ana.estados.length, 11, "semana 4: 11 apartados (sin Vocabulario, Aduso ni TeKaMoLo)");
   assert.deepStrictEqual(JSON.parse(JSON.stringify(ana.estados[0])), { titulo: "Números", estado: "hecho", a: 8, i: 10 });
   assert.strictEqual(ana.estados.find((e) => e.titulo === "La hora").estado, "abierto");
   assert.strictEqual(ana.estados.find((e) => e.titulo === "El Perfekt en una frase").estado, "hecho");
   assert.strictEqual(ana.estados.find((e) => e.titulo === "Verbos separables").estado, "falta");
-  assert.strictEqual(ana.faltan, 7);
+  assert.strictEqual(ana.faltan, 9);
   q(w, "#reg-falta").click();
   await esperar(() => q(w, ".alumno-falta"));
   assert(q(w, "#panel-registro").textContent.includes("faltan"), "el panel muestra lo que falta");
