@@ -22,6 +22,9 @@ añadir a la pantalla de inicio del iPhone (Safari → Compartir → *Añadir a 
 | **El verbo modal en la frase** | (Tema 3) Elige el modal que falta en la frase, o qué modal expresa capacidad, obligación, gusto o deseo. |
 | **Wie oft? (frecuencia)** | (Tema 3) Todos los grupos de expresiones de frecuencia: número de veces (einmal, zweimal…), unidad (pro Tag, pro Woche, im Monat, im Jahr) y habituales (jeden Tag, jede Woche, jedes Wochenende). Tres modos: la expresión, combinar número + unidad y responder a «Wie oft…?» con una frase. |
 | **Sein, haben, war, hatte** | (Tema 3) Combina bin / habe / war / hatte en frases: elige la forma que falta (presente o Präteritum, sein o haben) o escribe la frase entera. |
+| **Participios por grupos** | (Tema 3) Los 25 verbos del Perfekt agrupados por cómo forman el Partizip II: ge-…-t, prefijo + ge, sin ge-, vocal que no cambia, ei → ie, cambio a o y cambio a u / a. Tres modos: mezclado, grupo a grupo (los del mismo patrón seguidos) y «¿qué grupo?». |
+| **Modal + infinitivo** | (Tema 3) El modal en la posición 2 y el infinitivo al final: elige la frase bien ordenada, escríbela desde el español o elige la pregunta bien formada (modal en posición 1). |
+| **¿Cómo se dice?** | (Tema 3.5) Vocabulario de bebidas, carta, mesa, ciudad y transporte y frases del restaurante: del español al alemán (con artículo), del alemán al español y frases elegidas o escritas. |
 | **Aduso** | ¿Dónde va el verbo, en la posición 1 o en la 2? Frase afirmativa, adverbio de tiempo o de lugar al inicio, pregunta de sí/no, pregunta con palabra W e imperativo. |
 | **TeKaMoLo** | Ordena los bloques de tiempo, causa, modo y lugar de una frase completa. Si aciertas sale **TEKAMOLO!!!!!!**; si no, la palabra que formaste (KATEMOLO, MOLOKATE…) y «Da fehlt noch etwas!». |
 

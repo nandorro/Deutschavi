@@ -412,6 +412,119 @@ async function seinhaben() {
   assert.deepStrictEqual(w.document.errores, []);
 }
 
+async function participios() {
+  const w = await abrir("participios");
+  assert(!w.document.errores.length, w.document.errores.join());
+  const P = w.PARTICIPIOS;
+  assert.strictEqual(P.verbos.length, 25);
+  for (const v of P.verbos) assert(P.grupos.find((g) => g.id === v.grupo), "grupo de " + v.inf);
+  const parte = () => P.verbos.find((v) => v.inf === q(w, ".numero-grande").textContent);
+  // modo mezclado
+  for (let i = 0; i < 8; i++) { escribir(w, parte().part); assert(q(w, ".resultado.ok"), "mezclado"); q(w, "#sig").click(); }
+  escribir(w, "xxx");
+  assert(q(w, ".resultado.ko") && q(w, ".resultado").textContent.includes("Mismo patrón"));
+  q(w, "#sig").click();
+  // grupo a grupo: salen los miembros de un grupo seguidos antes de pasar al siguiente
+  qa(w, ".seg")[1].click();
+  const grupos = [];
+  for (let i = 0; i < 25; i++) {
+    const v = parte();
+    grupos.push(v.grupo);
+    escribir(w, v.part);
+    assert(q(w, ".resultado.ok"), "grupo a grupo " + v.inf);
+    q(w, "#sig").click();
+  }
+  let cambios = 0;
+  for (let i = 1; i < grupos.length; i++) if (grupos[i] !== grupos[i - 1]) cambios++;
+  assert(cambios <= 7, "los grupos van seguidos: " + grupos.join());
+  // ¿qué grupo?
+  qa(w, ".seg")[2].click();
+  const v = P.verbos.find((x) => x.inf === q(w, ".numero-grande").textContent.split(" → ")[0]);
+  qa(w, ".opcion").find((b) => b.dataset.o === P.grupos.find((g) => g.id === v.grupo).titulo).click();
+  assert(q(w, ".resultado.ok"), "qué grupo");
+  assert.deepStrictEqual(w.document.errores, []);
+}
+
+async function comosedice() {
+  const w = await abrir("comosedice");
+  assert(!w.document.errores.length, w.document.errores.join());
+  const L = w.PALABRAS.lista;
+  assert(L.length >= 90);
+  for (let i = 0; i < 8; i++) {                      // español → alemán, con y sin artículo
+    const p = L.find((x) => x.es === q(w, ".numero-grande").textContent);
+    escribir(w, i % 2 ? p.de[p.de.length - 1] : p.de[0].replace(/^(der|die|das) /, ""));
+    assert(q(w, ".resultado.ok"), "es→de " + p.de[0]);
+    q(w, "#sig").click();
+  }
+  qa(w, ".seg")[1].click();                          // alemán → español
+  for (let i = 0; i < 6; i++) {
+    const p = L.find((x) => x.de[0] === q(w, ".numero-grande").textContent);
+    assert.strictEqual(qa(w, ".opcion").length, 4);
+    qa(w, ".opcion").find((b) => b.dataset.o === p.es).click();
+    assert(q(w, ".resultado.ok"), "de→es " + p.de[0]);
+    q(w, "#sig").click();
+  }
+  const mal = L.find((x) => x.de[0] === q(w, ".numero-grande").textContent);
+  qa(w, ".opcion").find((b) => b.dataset.o !== mal.es).click();
+  assert(q(w, ".resultado.ko"));
+  q(w, "#sig").click();
+  const F = w.FRASES_REST;
+  qa(w, ".seg")[2].click();                          // frases: elegir
+  for (let i = 0; i < 5; i++) {
+    const f = F.find((x) => x.es === q(w, ".numero-grande, .frase-grande").textContent);
+    qa(w, ".opcion").find((b) => b.dataset.o === f.de[0]).click();
+    assert(q(w, ".resultado.ok"), "frase " + f.de[0]);
+    q(w, "#sig").click();
+  }
+  qa(w, ".seg")[3].click();                          // frases: escribir
+  for (let i = 0; i < 5; i++) {
+    const f = F.find((x) => x.es === q(w, ".tarjeta .frase-grande").textContent);
+    assert(f.escribir, "solo se piden por escrito las frases completas");
+    escribir(w, f.de[f.de.length - 1]);
+    assert(q(w, ".resultado.ok"), "escribir " + f.de[0]);
+    q(w, "#sig").click();
+  }
+  assert.deepStrictEqual(w.document.errores, []);
+}
+
+async function modalinf() {
+  const w = await abrir("modalinf");
+  assert(!w.document.errores.length, w.document.errores.join());
+  const A = w.ModalInfDe;
+  const it = { obj: "Deutsch", inf: "sprechen", es: "hablar alemán" };
+  assert.strictEqual(A.correcta(A.construir("frase", "können", "ich", it)), "Ich kann Deutsch sprechen.");
+  assert.strictEqual(A.correcta(A.construir("frase", "müssen", "er", it)), "Er muss Deutsch sprechen.");
+  assert.strictEqual(A.correcta(A.construir("pregunta", "können", "du", it)), "Kannst du Deutsch sprechen?");
+  assert.strictEqual(A.construir("frase", "möchten", "er", it).es, "Él querría hablar alemán.");
+  for (const t of ["frase", "pregunta"]) assert(A.opciones(A.construir(t, "können", "wir", it)).length >= 3);
+  const buenas = new Set();
+  for (const m of A.USADOS) for (const p of A.PRON_FRASE) for (const x of w.MODALINF) buenas.add(A.correcta(A.construir("frase", m, p, x)));
+  for (const m of A.USADOS) for (const p of A.PRON_PREGUNTA) for (const x of w.MODALINF) buenas.add(A.correcta(A.construir("pregunta", m, p, x)));
+  for (const modo of [0, 2]) {
+    qa(w, ".seg")[modo].click();
+    for (let i = 0; i < 6; i++) {
+      const o = qa(w, ".opcion").map((b) => b.dataset.o).find((x) => buenas.has(x));
+      assert(o, "opción correcta");
+      qa(w, ".opcion").find((b) => b.dataset.o === o).click();
+      assert(q(w, ".resultado.ok"), "elegir modo " + modo);
+      q(w, "#sig").click();
+    }
+  }
+  qa(w, ".seg")[1].click();                          // escribir la frase
+  const porEs = new Map();
+  for (const m of A.USADOS) for (const p of A.PRON_FRASE) for (const x of w.MODALINF) {
+    const c = A.construir("frase", m, p, x); porEs.set(c.es, A.correcta(c));
+  }
+  for (let i = 0; i < 6; i++) {
+    const de = porEs.get(q(w, ".tarjeta .frase-grande").textContent);
+    assert(de, "frase en español");
+    escribir(w, de);
+    assert(q(w, ".resultado.ok"), "escribir " + de);
+    q(w, "#sig").click();
+  }
+  assert.deepStrictEqual(w.document.errores, []);
+}
+
 async function sesion() {
   // con el registro activo: cerrar sesión borra el nombre (conserva el marcador) y vuelve a pedir el nombre
   const w = await abrir("", "https://registro.invalido.test/exec");
@@ -435,7 +548,7 @@ async function sesion() {
 }
 
 (async () => {
-  for (const [nombre, fn] of Object.entries({ numeros, verbos, frases, mayusculas, auxiliar, perfekt, hora, vocabulario, conjugar, modales, aduso, tekamolo, frecuencia, seinhaben, sesion })) {
+  for (const [nombre, fn] of Object.entries({ numeros, verbos, frases, mayusculas, auxiliar, perfekt, hora, vocabulario, conjugar, modales, aduso, tekamolo, frecuencia, seinhaben, participios, comosedice, modalinf, sesion })) {
     await fn();
     console.log("OK", nombre);
   }
